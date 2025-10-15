@@ -25,16 +25,19 @@ if not os.path.exists(DATA_PATH):
 df = pd.read_csv(DATA_PATH)
 print("✅ Dataset loaded successfully.")
 
-# Step 3: Basic Cleaning
+# Step 3: Inspect Columns
 df.dropna(inplace=True)
 df.columns = df.columns.str.lower()
+print("📋 Columns in dataset:", df.columns.tolist())
 
-if 'label' not in df.columns or 'text' not in df.columns:
-    raise ValueError("Dataset must contain 'label' and 'text' columns.")
+# Step 4: Adjust Column Names Based on Actual CSV
+# Replace 'category' and 'message' with actual column names from your CSV
+if 'category' not in df.columns or 'message' not in df.columns:
+    raise ValueError("Dataset must contain 'category' and 'message' columns.")
 
-# Step 4: Encode Labels
-df['label'] = df['label'].map({'ham': 0, 'spam': 1})
-X = df['text']
+df['label'] = df['category'].map({'ham': 0, 'spam': 1})
+X = df['message'].astype(str)
+
 y = df['label']
 
 # Step 5: Feature Extraction
